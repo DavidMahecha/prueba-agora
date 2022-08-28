@@ -4,4 +4,4 @@ Proyecto gerado con [Angular CLI](https://github.com/angular/angular-cli) versio
 
 ## Inicialización
 
-Correr `ng serve` para inicializar un servidor de pruebas. Navegar a `http://localhost:4200/`.
+Correr `npm install` para instalar las dependencias y `ng serve` para inicializar un servidor de pruebas. Navegar a `http://localhost:4200/`.
