@@ -6,9 +6,17 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ProductComponent } from './components/product/product.component';
 
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ProductFormComponent } from './components/product-form/product-form.component';
+
 @NgModule({
-  declarations: [AppComponent, ProductComponent],
-  imports: [BrowserModule, HttpClientModule, FormsModule],
+  declarations: [AppComponent, ProductComponent, ProductFormComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ModalModule.forRoot()
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
-import { NgForm } from '@angular/forms';
+import { ProductFormComponent } from 'src/app/components/product-form/product-form.component';
 import { Product, EstadoProducto } from '../../models/product';
+
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-product',
@@ -10,21 +12,26 @@ import { Product, EstadoProducto } from '../../models/product';
 })
 export class ProductComponent implements OnInit {
 
-  Estados = EstadoProducto
+  bsModalRef?: BsModalRef;
 
-  EstadosInfo = {
+  estadosInfo = {
     [EstadoProducto.Activo]: {
       texto: 'Inactivar',
-      color: 'danger'
+      color: 'danger',
+      textoEditar: 'inactivado',
+      icono: 'close'
     },
     [EstadoProducto.Inactivo]: {
       texto: 'Activar',
-      color: 'success'
+      color: 'success',
+      textoEditar: 'activado',
+      icono: 'check'
     },
   }
 
   constructor(
-    public productService: ProductService
+    public productService: ProductService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
@@ -33,52 +40,45 @@ export class ProductComponent implements OnInit {
 
   getProducts() {
     this.productService.getProducts().subscribe({
-      next: (res) => (this.productService.products = res),
-      error: (error) => console.log(error),
+      next: (res) => {
+        this.productService.products = res
+      },
+      error: (error) => {
+        alert('Ha ocurrido un error al obtener los productod')
+      },
     });
   }
 
-  addProduct(form: NgForm) {
-    console.log(form.value);return;
-    const onSuccess = () => {
-      this.getProducts();
-      form.reset();
+  changeStatus(product: Product) {
+
+    const codigoEstado = product.codigoEstado === EstadoProducto.Activo ?
+      EstadoProducto.Inactivo :
+      EstadoProducto.Activo;
+
+    this.productService.updateProduct({
+      ...product,
+      codigoEstado
+    }).subscribe({
+      next: () => {
+        alert(`Producto ${this.estadosInfo[product.codigoEstado].textoEditar} exitosamente`)
+        this.getProducts();
+      },
+      error: (error) => {
+        alert('Ha ocurrido un error al actualizar los productos')
+      },
+    });;
+  }
+
+  openModal(idProducto?: number) {
+    const initialState: ModalOptions = {
+      initialState: {
+        idProducto
+      }
     };
+    this.bsModalRef = this.modalService.show(ProductFormComponent, initialState);
 
-    const data = {
-      ...form.value,
-      codigoEstado: form.value.codigoEstado ? this.Estados.Activo : this.Estados.Inactivo,
-      idCategoriaProducto: 1
-    }
-
-    if (form.value.idProducto) {
-      this.productService.updateProduct(data).subscribe({
-        next: onSuccess,
-      });
-    } else {
-      this.productService.createProduct(data).subscribe({
-        next: onSuccess,
-      });
-    }
-  }
-
-  deleteProduct(id: number) {
-    if (confirm('Are you sure you want to delete ir?')) {
-      // this.productService.deleteProduct(id).subscribe({
-      //   next: () => this.getProducts(),
-      // });
-    }
-  }
-
-  editProduct(product: Product) {
-    this.productService.selectedProduct = { ...product };
-  }
-
-  onChangeStatus(event: Event) {
-    const element = event.target as HTMLInputElement;
-    
-    this.productService.selectedProduct.codigoEstado = element.checked ?
-      this.Estados.Activo :
-      this.Estados.Inactivo;
+    this.bsModalRef.content.event.subscribe(() => {
+      this.getProducts();
+    });
   }
 }

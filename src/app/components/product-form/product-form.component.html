@@ -1,0 +1,127 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{ titulo }}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form #productForm="ngForm" (ngSubmit)="saveProduct(productForm)">
+        <!-- THE Id's Employee -->
+        <input
+          [(ngModel)]="productService.selectedProduct.idProducto"
+          type="hidden"
+          name="idProducto"
+        />
+
+        <div class="form-group mb-3">
+            <label for="codigoProducto">Código</label>
+            <input
+                [(ngModel)]="productService.selectedProduct.codigoProducto"
+                type="text"
+                name="codigoProducto"
+                id="codigoProducto"
+                placeholder="Código"
+                class="form-control"
+                required
+                maxlength="10"
+                pattern="[A-Za-z0-9]*"
+                #codigoProducto="ngModel"
+                [class.is-invalid]="codigoProducto.invalid"
+            />
+            <div *ngIf="codigoProducto.invalid" class="invalid-feedback">
+                <div *ngIf="codigoProducto.errors?.['pattern']">
+                    El código no es alfanumerico.
+                </div>
+                <div *ngIf="codigoProducto.errors?.['required']">
+                    El código es requerido.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="eanproducto">EAN</label>
+            <div class="input-field col-s12">
+                <input
+                    [(ngModel)]="productService.selectedProduct.eanproducto"
+                    type="text"
+                    name="eanproducto"
+                    id="eanproducto"
+                    placeholder="EAN"
+                    class="form-control"
+                    required
+                    maxlength="10"
+                    pattern="[A-Za-z0-9]*"
+                    #eanproducto="ngModel"
+                    [class.is-invalid]="eanproducto.invalid"
+                />
+                <div *ngIf="eanproducto.invalid" class="invalid-feedback">
+                    <div *ngIf="eanproducto.errors?.['pattern']">
+                        El ean no es alfanumerico.
+                    </div>
+                    <div *ngIf="eanproducto.errors?.['required']">
+                        El ean es requerido.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="nombre">Nombre</label>
+            <input
+                [(ngModel)]="productService.selectedProduct.nombre"
+                type="text"
+                name="nombre"
+                id="nombre"
+                placeholder="Nombre"
+                class="form-control"
+                required
+                maxlength="20"
+                pattern="[A-Za-z0-9]*"
+                #nombre="ngModel"
+                [class.is-invalid]="nombre.invalid"
+            />
+            <div *ngIf="nombre.invalid" class="invalid-feedback">
+                <div *ngIf="nombre.errors?.['pattern']">
+                    El nombre no es alfanumerico.
+                </div>
+                <div *ngIf="nombre.errors?.['required']">
+                    El nombre es requerido.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="precio">Precio</label>
+            <div class="input-field col-s12">
+                <input
+                    [(ngModel)]="productService.selectedProduct.precio"
+                    type="number"
+                    name="precio"
+                    id="precio"
+                    value="0"
+                    placeholder="Precio"
+                    class="form-control"
+                    required
+                    maxlength="16"
+                    min="100"
+                    pattern="\d{1,16}[.]?\d{0,2}"
+                    #precio="ngModel"
+                    [class.is-invalid]="precio.invalid"
+                />
+                <div *ngIf="precio.invalid" class="invalid-feedback">
+                    <div *ngIf="precio.errors?.['pattern']">
+                        El precio no tiene el formato requerido.
+                    </div>
+                    <div *ngIf="precio.errors?.['required']">
+                        El precio es requerido.
+                    </div>
+                    <div *ngIf="precio.errors?.['min']">
+                        El precio minimo es 100.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+</div>

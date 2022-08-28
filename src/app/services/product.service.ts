@@ -18,6 +18,13 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.URL_API}/Producto/ConsultarProductos`);
   }
 
+
+  getProduct(idProducto: number) {
+    return this.http.post<Product>(`${this.URL_API}/Producto/ObtenerProducto`, {
+      idProducto
+    });
+  }
+
   createProduct(product: Product) {
     return this.http.post(`${this.URL_API}/Producto/CrearProducto`, product);
   }
