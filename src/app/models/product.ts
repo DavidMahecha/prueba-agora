@@ -3,6 +3,11 @@ export enum EstadoProducto {
   Inactivo = 2,
 }
 
+export enum CategoriaProducto {
+  SmartPhone = 1,
+  SmartTV = 2,
+}
+
 export class Product {
   constructor(
     idProducto = 0,
@@ -12,6 +17,7 @@ export class Product {
     precio = 0,
     codigoEstado = EstadoProducto.Activo,
     nombreEstado = '',
+    idCategoriaProducto = CategoriaProducto.SmartPhone
   ) {
     this.idProducto = idProducto
     this.codigoProducto = codigoProducto
@@ -20,6 +26,7 @@ export class Product {
     this.precio = precio
     this.codigoEstado = codigoEstado
     this.nombreEstado = nombreEstado
+    this.idCategoriaProducto = idCategoriaProducto
   }
 
   idProducto: number;
@@ -29,4 +36,5 @@ export class Product {
   precio: number;
   codigoEstado: EstadoProducto;
   nombreEstado: string;
+  idCategoriaProducto: CategoriaProducto;
 }

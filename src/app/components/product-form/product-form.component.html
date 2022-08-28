@@ -91,6 +91,21 @@
         </div>
 
         <div class="form-group mb-3">
+            <label for="idCategoriaProducto">Categoría</label>
+            <select
+                [(ngModel)]="productService.selectedProduct.idCategoriaProducto"
+                type="text"
+                name="idCategoriaProducto"
+                id="idCategoriaProducto"
+                placeholder="Nombre"
+                class="form-control"
+            >
+                <option [value]="categorias.SmartPhone">Smart Phone</option>
+                <option [value]="categorias.SmartTV">Smart TV</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
             <label for="precio">Precio</label>
             <div class="input-field col-s12">
                 <input

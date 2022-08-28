@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
-import { EstadoProducto, Product } from '../../models/product';
+import { EstadoProducto, Product, CategoriaProducto } from '../../models/product';
 
 @Component({
   selector: 'app-product-form',
@@ -15,6 +15,7 @@ export class ProductFormComponent implements OnInit {
 
   Estados = EstadoProducto;
   titulo: string = '';
+  categorias = CategoriaProducto;
 
   public event: EventEmitter<any> = new EventEmitter();
 
@@ -53,7 +54,6 @@ export class ProductFormComponent implements OnInit {
     };
 
     let data = {
-      idCategoriaProducto: 1,
       ...form.value,
     }
 
