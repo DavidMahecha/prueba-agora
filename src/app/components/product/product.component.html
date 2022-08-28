@@ -1,0 +1,150 @@
+<div class="row">
+  <!-- FORM -->
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body p-4">
+        <!-- FORM -->
+        <form #productForm="ngForm" (ngSubmit)="addProduct(productForm)">
+          <!-- THE Id's Employee -->
+          <input
+            [(ngModel)]="productService.selectedProduct.idProducto"
+            type="hidden"
+            name="idProducto"
+          />
+
+          <div class="form-group">
+            <input
+              [(ngModel)]="productService.selectedProduct.codigoProducto"
+              type="text"
+              name="codigoProducto"
+              placeholder="Código"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <div class="input-field col-s12">
+              <input
+                [(ngModel)]="productService.selectedProduct.eanproducto"
+                type="text"
+                name="eanproducto"
+                placeholder="EAN"
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input
+              [(ngModel)]="productService.selectedProduct.nombre"
+              type="text"
+              name="nombre"
+              placeholder="Nombre"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <div class="input-field col-s12">
+              <input
+                [(ngModel)]="productService.selectedProduct.precio"
+                type="number"
+                name="precio"
+                value="0"
+                placeholder="Precio"
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-field col-s12">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  [checked]="productService.selectedProduct.codigoEstado == Estados.Activo"
+                  (change)="onChangeStatus($event)"
+                  name="codigoEstado"
+                  id="codigoEstado"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" for="codigoEstado">Activo</label>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-secondary">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="col-md-8">
+    <table class="table table-striped">
+      <thead>
+        <th>Código</th>
+        <th>EAN</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Estado</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of productService.products">
+          <td>{{ product.codigoProducto }}</td>
+          <td>{{ product.eanproducto }}</td>
+          <td>{{ product.nombre }}</td>
+          <td>{{ product.precio }}</td>
+          <td>
+            <input
+              type="checkbox"
+              [checked]="product.codigoEstado === 1"
+            />
+          </td>
+          <td>
+            <a
+              (click)="editProduct(product)"
+              class="btn btn-secondary btn-sm"
+              title="Editar"
+            >
+              <i class="material-icons">edit</i>
+            </a>
+            <a
+              (click)="deleteProduct(product.idProducto)"
+              [ngClass]="'btn btn-sm ' + EstadosInfo[product.codigoEstado].texto"
+              [title]="EstadosInfo[product.codigoEstado].texto"
+            >
+              <i class="material-icons">delete</i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
